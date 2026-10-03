@@ -11,6 +11,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "openbsw-cpp2can"
+version = "0.1.0"
+dependencies = [
+ "openbsw-timer",
+ "openbsw-util",
+]
+
+[[package]]
 name = "openbsw-lifecycle"
 version = "0.1.0"
 dependencies = [
