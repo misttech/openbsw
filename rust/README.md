@@ -22,6 +22,8 @@ depends on these crates by relative path: both trees are checked out side by sid
 | `lifecycle` | `libs/bsw/lifecycle` | run levels, components (`ComponentBase` merges the C++ base classes), the `LifecycleManager` with the exact transition order and log lines, listeners |
 | `logger` | `libs/bsw/logger`, `loggerIntegration` | the ring of serialized entries (`EntryBuffer`, `BufferedLoggerOutput`), the component table and config, `ConsoleEntryFormatter` producing `<ms>: Core0: <component>: <level>: <message>`, the console output and the composition that drains one entry per run |
 | `cpp2can` | `libs/bsw/cpp2can` | `CanFrame` and the `can_id` encoding, the id filters (`BitFieldFilter`, `IntervalFilter`, `MaskFilter`, `StaticBitFieldFilter`) and their merger, the frame and sent-frame listeners, the `CanTransceiver` trait and the `AbstractCanTransceiver` base with the listener lists |
+| `runtime` | `libs/bsw/runtime` | run time statistics (`RuntimeStatistics`, `FunctionRuntimeStatistics`), the stack of running contexts and functions, the `RuntimeMonitor` fed by the context-switch hooks, and the `StatisticsWriter` console table |
+| `console` | `libs/bsw/asyncConsole`, `stdioConsoleInput` | the `AsyncConsole` command tree with `help`, the sync and async command wrappers, `StdioConsoleInput` with echo, editing and prompt, and the tagged shared `ConsoleOutput` |
 
 Strings are byte slices (`&[u8]`): console input is not guaranteed to be UTF-8, and the
 C++ code works on `char const*`.

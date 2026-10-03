@@ -39,3 +39,10 @@ in the Forkpoint repository). In short:
    `Arg` values; the `log_*!` macros build it.
 9. **Equivalence.** In Forkpoint, `make test-nucleo-g474re-openbsw-rust-demo` builds the
    demo from these crates and checks it against the C++ build with `fpt equiv`.
+10. **Objects that name themselves.** A C++ member constructed with `*this` (a context's
+    event policy, a transceiver's runnables, the console's help command) becomes a field
+    built from a `this: &'static Self` parameter of the `const fn` constructor, and the
+    `static` item passes its own address: `static CONSOLE: AsyncConsole =
+    AsyncConsole::new(&CONSOLE)`. Where a C++ constructor registers the object somewhere
+    (a command wrapper adding itself to the console), the application registers it at
+    startup instead, next to its lifecycle components.
