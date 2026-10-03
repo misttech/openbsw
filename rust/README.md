@@ -25,6 +25,7 @@ depends on these crates by relative path: both trees are checked out side by sid
 | `runtime` | `libs/bsw/runtime` | run time statistics (`RuntimeStatistics`, `FunctionRuntimeStatistics`), the stack of running contexts and functions, the `RuntimeMonitor` fed by the context-switch hooks, and the `StatisticsWriter` console table |
 | `console` | `libs/bsw/asyncConsole`, `stdioConsoleInput` | the `AsyncConsole` command tree with `help`, the sync and async command wrappers, `StdioConsoleInput` with echo, editing and prompt, and the tagged shared `ConsoleOutput` |
 | `transport` | `libs/bsw/transport`, `transportRouterSimple` | `TransportMessage` over cells in a borrowed buffer, the listener, processed-listener and provider traits, the `TransportLayer` trait with its `ProvidingListenerHelper`, the tester address lists, and `TransportRouterSimple` with its three large and eight functional buffers |
+| `docan` | `libs/bsw/docan` | ISO 15765-2 over classic CAN with normal addressing: the frame codec (`FrameCodec` over the `presets`), the `NormalAddressingFilter` mapping CAN ids to transport addresses, `PhysicalCanTransceiver` over a `cpp2can` transceiver, the receive and transmit state machines with their timeouts and flow control, pools of fixed slots, and `DoCanTransportLayer` with its config and container |
 
 Strings are byte slices (`&[u8]`): console input is not guaranteed to be UTF-8, and the
 C++ code works on `char const*`.
