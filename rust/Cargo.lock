@@ -11,6 +11,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "openbsw-lifecycle"
+version = "0.1.0"
+dependencies = [
+ "openbsw-async",
+ "openbsw-util",
+]
+
+[[package]]
 name = "openbsw-timer"
 version = "0.1.0"
 

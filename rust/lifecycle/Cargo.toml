@@ -1,0 +1,20 @@
+# Copyright 2026 Mist Tecnologia LTDA. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "openbsw-lifecycle"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Port of OpenBSW libs/bsw/lifecycle: run levels, components and the manager that drives their transitions"
+
+[lib]
+name = "openbsw_lifecycle"
+
+[dependencies]
+openbsw-async.workspace = true
+openbsw-util.workspace = true
+
+[dev-dependencies]
+openbsw-async = { workspace = true, features = ["mock"] }
