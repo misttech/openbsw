@@ -51,3 +51,10 @@ in the Forkpoint repository). In short:
     plus an array of indices that keeps the C++ list order, sized by the same const
     parameters. A slot in use is handed out as a `'static` reference, which it is because
     the pool lives in a `static` config; nothing new can be "full" and nothing allocates.
+12. **The version the demo is built with.** Where the fork's `main` has moved on from the
+    OpenBSW commit the Zephyr demo pins (the transport router, UDS), the port follows the
+    pinned commit, since that is the C++ image Forkpoint compares against; the crate's
+    documentation names it. A request is a slice of the transport message's cells
+    (`&[Cell<u8>]`): the C++ clears the suppress-positive-response bit in the request
+    buffer as it dispatches, and so does the port.
+

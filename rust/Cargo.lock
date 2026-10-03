@@ -74,5 +74,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "openbsw-uds"
+version = "0.1.0"
+dependencies = [
+ "openbsw-async",
+ "openbsw-timer",
+ "openbsw-transport",
+ "openbsw-util",
+]
+
+[[package]]
 name = "openbsw-util"
 version = "0.1.0"
