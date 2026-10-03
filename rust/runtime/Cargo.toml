@@ -1,0 +1,17 @@
+# Copyright 2026 Mist Tecnologia LTDA. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "openbsw-runtime"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Port of OpenBSW libs/bsw/runtime: run time statistics of tasks, interrupt groups and functions, and their console table"
+
+[lib]
+name = "openbsw_runtime"
+
+[dependencies]
+openbsw-timer.workspace = true
+openbsw-util.workspace = true
