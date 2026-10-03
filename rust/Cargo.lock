@@ -55,5 +55,13 @@ name = "openbsw-timer"
 version = "0.1.0"
 
 [[package]]
+name = "openbsw-transport"
+version = "0.1.0"
+dependencies = [
+ "openbsw-timer",
+ "openbsw-util",
+]
+
+[[package]]
 name = "openbsw-util"
 version = "0.1.0"
