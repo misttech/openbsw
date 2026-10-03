@@ -1,0 +1,17 @@
+# Copyright 2026 Mist Tecnologia LTDA. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "openbsw-transport"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Port of OpenBSW libs/bsw/transport and transportRouterSimple: transport messages, the transport layer interface and the simple router"
+
+[lib]
+name = "openbsw_transport"
+
+[dependencies]
+openbsw-timer.workspace = true
+openbsw-util.workspace = true
