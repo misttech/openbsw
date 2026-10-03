@@ -1,0 +1,5 @@
+# Copyright 2026 Mist Tecnologia LTDA. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+edition = "2024"
+use_small_heuristics = "Max"
+newline_style = "Unix"
