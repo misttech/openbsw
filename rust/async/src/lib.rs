@@ -34,6 +34,6 @@ pub use call::FunctionRunnable;
 pub use event::{Dispatcher, EventDispatcher, EventHandler, EventPolicy};
 pub use executor::RunnableExecutor;
 pub use lock::{ModifiableLock, NoRawLock, RawLock, ScopedLock};
-pub use openbsw_timer::Lock;
+pub use openbsw_timer::{Lock, NoLock};
 pub use queue::{HasQueueNode, Queue, QueueNode};
 pub use types::{CONTEXT_INVALID, ContextType, EventMaskType, Runnable, TimeUnit, Timeout};
