@@ -1,0 +1,15 @@
+# Copyright 2026 Mist Tecnologia LTDA. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "openbsw-util"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Port of OpenBSW libs/bsw/util: printf formatting, streams, console commands, logger core"
+
+[lib]
+name = "openbsw_util"
+
+[dependencies]
