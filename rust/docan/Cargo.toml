@@ -1,0 +1,23 @@
+# Copyright 2026 Mist Tecnologia LTDA. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "openbsw-docan"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Port of OpenBSW libs/bsw/docan: ISO 15765-2 diagnostics over CAN with normal addressing"
+
+[lib]
+name = "openbsw_docan"
+
+[dependencies]
+openbsw-async.workspace = true
+openbsw-cpp2can.workspace = true
+openbsw-timer.workspace = true
+openbsw-transport.workspace = true
+openbsw-util.workspace = true
+
+[dev-dependencies]
+openbsw-async = { workspace = true, features = ["mock"] }

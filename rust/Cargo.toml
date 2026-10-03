@@ -5,7 +5,7 @@
 # libs/bsw, host-testable, with no external dependencies. See README.md and PORTING.md.
 [workspace]
 resolver = "3"
-members = ["util", "timer", "async", "lifecycle", "logger", "cpp2can", "runtime", "console", "transport"]
+members = ["util", "timer", "async", "lifecycle", "logger", "cpp2can", "runtime", "console", "transport", "docan"]
 
 [workspace.package]
 version = "0.1.0"
@@ -23,6 +23,7 @@ openbsw-cpp2can = { path = "cpp2can" }
 openbsw-runtime = { path = "runtime" }
 openbsw-console = { path = "console" }
 openbsw-transport = { path = "transport" }
+openbsw-docan = { path = "docan" }
 
 # The firmware builds optimized, as the C++ build does (-O2); keep debug info for the
 # ELF and panic = "abort" since there is no unwinder on the target.

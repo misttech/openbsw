@@ -46,3 +46,8 @@ in the Forkpoint repository). In short:
     AsyncConsole::new(&CONSOLE)`. Where a C++ constructor registers the object somewhere
     (a command wrapper adding itself to the console), the application registers it at
     startup instead, next to its lifecycle components.
+11. **Pools become slot arrays.** An `etl::generic_pool` member that hands out objects
+    (DoCAN's message receivers and transmitters) becomes a fixed array of reusable slots
+    plus an array of indices that keeps the C++ list order, sized by the same const
+    parameters. A slot in use is handed out as a `'static` reference, which it is because
+    the pool lives in a `static` config; nothing new can be "full" and nothing allocates.
