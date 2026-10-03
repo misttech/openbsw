@@ -19,6 +19,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "openbsw-logger"
+version = "0.1.0"
+dependencies = [
+ "openbsw-timer",
+ "openbsw-util",
+]
+
+[[package]]
 name = "openbsw-timer"
 version = "0.1.0"
 

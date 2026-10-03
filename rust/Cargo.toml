@@ -5,7 +5,7 @@
 # libs/bsw, host-testable, with no external dependencies. See README.md and PORTING.md.
 [workspace]
 resolver = "3"
-members = ["util", "timer", "async", "lifecycle"]
+members = ["util", "timer", "async", "lifecycle", "logger"]
 
 [workspace.package]
 version = "0.1.0"
@@ -18,6 +18,7 @@ openbsw-util = { path = "util" }
 openbsw-timer = { path = "timer" }
 openbsw-async = { path = "async" }
 openbsw-lifecycle = { path = "lifecycle" }
+openbsw-logger = { path = "logger" }
 
 # The firmware builds optimized, as the C++ build does (-O2); keep debug info for the
 # ELF and panic = "abort" since there is no unwinder on the target.

@@ -20,6 +20,7 @@ depends on these crates by relative path: both trees are checked out side by sid
 | `timer` | `libs/bsw/timer` | a sorted intrusive list of one-shot and cyclic timeouts over a wrapping 32-bit clock |
 | `async` | `libs/bsw/async`, `asyncImpl`, the adaptation's `async/Types.h` | runnables and their intrusive queue, event dispatching, the `Timeout`, critical sections, the platform binding (`Async`), and a scripted `MockAsync` for tests (feature `mock`) |
 | `lifecycle` | `libs/bsw/lifecycle` | run levels, components (`ComponentBase` merges the C++ base classes), the `LifecycleManager` with the exact transition order and log lines, listeners |
+| `logger` | `libs/bsw/logger`, `loggerIntegration` | the ring of serialized entries (`EntryBuffer`, `BufferedLoggerOutput`), the component table and config, `ConsoleEntryFormatter` producing `<ms>: Core0: <component>: <level>: <message>`, the console output and the composition that drains one entry per run |
 
 Strings are byte slices (`&[u8]`): console input is not guaranteed to be UTF-8, and the
 C++ code works on `char const*`.
