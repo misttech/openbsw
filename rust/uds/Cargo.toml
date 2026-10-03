@@ -1,0 +1,22 @@
+# Copyright 2026 Mist Tecnologia LTDA. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "openbsw-uds"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Port of OpenBSW libs/bsw/uds: the diagnostic dispatcher, jobs and services the demo uses"
+
+[lib]
+name = "openbsw_uds"
+
+[dependencies]
+openbsw-async.workspace = true
+openbsw-timer.workspace = true
+openbsw-transport.workspace = true
+openbsw-util.workspace = true
+
+[dev-dependencies]
+openbsw-async = { workspace = true, features = ["mock"] }
