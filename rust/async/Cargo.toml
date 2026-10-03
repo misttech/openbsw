@@ -1,0 +1,22 @@
+# Copyright 2026 Mist Tecnologia LTDA. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "openbsw-async"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Port of OpenBSW libs/bsw/async and asyncImpl: runnables, timeouts, event dispatching, and the platform binding"
+
+[lib]
+name = "openbsw_async"
+
+[features]
+# A scripted `Async` implementation for host tests of the libraries that use the binding.
+mock = ["std"]
+std = []
+
+[dependencies]
+openbsw-timer.workspace = true
+openbsw-util.workspace = true
