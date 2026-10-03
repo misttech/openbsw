@@ -52,6 +52,16 @@ impl PlainLevelInfo {
     pub const fn new(name: &'static [u8], attributes: StringAttributes, level: Level) -> Self {
         Self { name: AttributedString::new(name, attributes), level }
     }
+
+    /// The attributed name.
+    pub const fn name(&self) -> AttributedString<'static> {
+        self.name
+    }
+
+    /// The level.
+    pub const fn level(&self) -> Level {
+        self.level
+    }
 }
 
 /// A reference to a level's information, which may be invalid.

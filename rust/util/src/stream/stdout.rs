@@ -7,7 +7,7 @@ use super::OutputStream;
 
 /// The board's console bytes: the port of the `getByteFromStdin` and `putByteToStdout`
 /// functions the BSP provides.
-pub trait Stdio {
+pub trait Stdio: Sync {
     /// The next byte from the console, or a negative value, or 255, when none is
     /// waiting. (The Zephyr BSP returns 255: it stores `-1` in an `unsigned char`.)
     fn get_byte(&self) -> i32;
@@ -45,6 +45,9 @@ mod tests {
     use std::vec::Vec;
 
     struct Recorder(RefCell<Vec<u8>>);
+
+    // SAFETY: single-threaded test object.
+    unsafe impl Sync for Recorder {}
 
     impl Stdio for Recorder {
         fn get_byte(&self) -> i32 {

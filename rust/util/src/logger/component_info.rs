@@ -19,6 +19,11 @@ impl PlainComponentInfo {
     pub const fn new(name: &'static [u8], attributes: StringAttributes) -> Self {
         Self { name: AttributedString::new(name, attributes) }
     }
+
+    /// The attributed name.
+    pub const fn name(&self) -> AttributedString<'static> {
+        self.name
+    }
 }
 
 /// A component's index and a reference to its information, which may be invalid.
