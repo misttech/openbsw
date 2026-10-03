@@ -1,0 +1,15 @@
+# Copyright 2026 Mist Tecnologia LTDA. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "openbsw-timer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Port of OpenBSW libs/bsw/timer: a sorted list of one-shot and cyclic timeouts"
+
+[lib]
+name = "openbsw_timer"
+
+[dependencies]
