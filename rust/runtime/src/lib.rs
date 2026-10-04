@@ -31,7 +31,7 @@ mod statistics;
 mod writer;
 
 pub use container::{GetName, HasStatistics, StatisticsContainer, StatisticsIterator};
-pub use monitor::{ContextEntry, FunctionEntry, RuntimeMonitor};
+pub use monitor::{Clock, ContextEntry, FunctionEntry, RuntimeMonitor};
 pub use stack::{NestedRuntimeEntry, RuntimeStack, SimpleRuntimeEntry, StackEntry};
 pub use statistics::{FunctionRuntimeStatistics, RuntimeStatistics, Statistics};
 pub use writer::{Mode, StatisticsWriter, TickConversion};
