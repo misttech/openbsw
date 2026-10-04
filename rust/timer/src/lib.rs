@@ -36,9 +36,24 @@ impl Lock for NoLock {
     }
 }
 
+/// A timeout in a list, with its link alongside: walking the list reads the links
+/// directly, as the C++ list reaches the `Timeout` base's fields, instead of calling
+/// [`TimeoutNode::link`] through the trait object for every node it passes.
+#[derive(Clone, Copy)]
+struct Entry {
+    node: &'static dyn TimeoutNode,
+    link: &'static TimerLink,
+}
+
+impl Entry {
+    fn new(node: &'static dyn TimeoutNode) -> Self {
+        Self { node, link: node.link() }
+    }
+}
+
 /// The link and timing fields a timeout embeds: the port of `timer::Timeout`'s data.
 pub struct TimerLink {
-    next: Cell<Option<&'static dyn TimeoutNode>>,
+    next: Cell<Option<Entry>>,
     linked: Cell<bool>,
     /// The time when the timeout expires.
     time: Cell<u32>,
@@ -95,7 +110,7 @@ pub trait TimeoutNode: Sync {
 
 /// A sorted list of timeouts: the port of `timer::Timer<LockGuard>`.
 pub struct Timer<L: Lock> {
-    first: Cell<Option<&'static dyn TimeoutNode>>,
+    first: Cell<Option<Entry>>,
     _lock: PhantomData<L>,
 }
 
@@ -122,10 +137,10 @@ impl<L: Lock> Timer<L> {
             let _lock = L::lock();
             match self.first.get() {
                 Some(first) => {
-                    let diff_timeout = diff(first.link().time(), now);
+                    let diff_timeout = diff(first.link.time(), now);
                     if diff_timeout <= 0 {
-                        self.first.set(first.link().next.take());
-                        first.link().linked.set(false);
+                        self.first.set(first.link.next.take());
+                        first.link.linked.set(false);
                         (first, diff_timeout)
                     } else {
                         return false;
@@ -135,7 +150,7 @@ impl<L: Lock> Timer<L> {
             }
         };
         self.reschedule_cyclic_timeout(timeout, now);
-        timeout.expired();
+        timeout.node.expired();
         diff_timeout == 0
     }
 
@@ -144,10 +159,10 @@ impl<L: Lock> Timer<L> {
     pub fn get_next_delta(&self, now: u32) -> Option<u32> {
         let _lock = L::lock();
         let first = self.first.get()?;
-        if diff(first.link().time(), now) < 0 {
+        if diff(first.link.time(), now) < 0 {
             Some(0)
         } else {
-            Some(first.link().time().wrapping_sub(now))
+            Some(first.link.time().wrapping_sub(now))
         }
     }
 
@@ -159,12 +174,12 @@ impl<L: Lock> Timer<L> {
     /// Set a single-shot timeout `delay` after `now`. Returns `true` if it is now the first
     /// to expire, so the alarm must be rearmed.
     pub fn set(&self, timeout: &'static dyn TimeoutNode, delay: u32, now: u32) -> bool {
-        self.add_timeout(timeout, delay.wrapping_add(now), 0, now)
+        self.add_timeout(Entry::new(timeout), delay.wrapping_add(now), 0, now)
     }
 
     /// Set a cyclic timeout with `period`. Returns `true` if it is now the first to expire.
     pub fn set_cyclic(&self, timeout: &'static dyn TimeoutNode, period: u32, now: u32) -> bool {
-        self.add_timeout(timeout, period.wrapping_add(now), period, now)
+        self.add_timeout(Entry::new(timeout), period.wrapping_add(now), period, now)
     }
 
     /// Cancel a timeout; nothing happens if it is not set.
@@ -175,8 +190,8 @@ impl<L: Lock> Timer<L> {
         }
     }
 
-    fn reschedule_cyclic_timeout(&self, timeout: &'static dyn TimeoutNode, now: u32) {
-        let link = timeout.link();
+    fn reschedule_cyclic_timeout(&self, timeout: Entry, now: u32) {
+        let link = timeout.link;
         if link.cycle_time() > 0 {
             self.add_timeout(
                 timeout,
@@ -190,24 +205,24 @@ impl<L: Lock> Timer<L> {
     /// Insert after every timeout that expires at the same time or earlier.
     fn add_timeout(
         &self,
-        timeout: &'static dyn TimeoutNode,
+        timeout: Entry,
         absolute_timeout: u32,
         cycle_time: u32,
         now: u32,
     ) -> bool {
-        let link = timeout.link();
+        let link = timeout.link;
         link.time.set(absolute_timeout);
         link.cycle_time.set(cycle_time);
         let _lock = L::lock();
         let timeout_diff = diff(link.time(), now);
-        let mut prev: Option<&'static dyn TimeoutNode> = None;
+        let mut prev: Option<Entry> = None;
         let mut current = self.first.get();
-        while let Some(node) = current {
-            if diff(node.link().time(), now) > timeout_diff {
+        while let Some(entry) = current {
+            if diff(entry.link.time(), now) > timeout_diff {
                 break;
             }
-            prev = Some(node);
-            current = node.link().next.get();
+            prev = Some(entry);
+            current = entry.link.next.get();
         }
         link.next.set(current);
         link.linked.set(true);
@@ -217,27 +232,27 @@ impl<L: Lock> Timer<L> {
                 true
             }
             Some(prev) => {
-                prev.link().next.set(Some(timeout));
+                prev.link.next.set(Some(timeout));
                 false
             }
         }
     }
 
     fn erase(&self, timeout: &dyn TimeoutNode) {
-        let mut prev: Option<&'static dyn TimeoutNode> = None;
+        let mut prev: Option<Entry> = None;
         let mut current = self.first.get();
-        while let Some(node) = current {
-            if same_node(node, timeout) {
-                let next = node.link().next.take();
-                node.link().linked.set(false);
+        while let Some(entry) = current {
+            if same_node(entry.node, timeout) {
+                let next = entry.link.next.take();
+                entry.link.linked.set(false);
                 match prev {
                     None => self.first.set(next),
-                    Some(prev) => prev.link().next.set(next),
+                    Some(prev) => prev.link.next.set(next),
                 }
                 return;
             }
-            prev = Some(node);
-            current = node.link().next.get();
+            prev = Some(entry);
+            current = entry.link.next.get();
         }
     }
 }
